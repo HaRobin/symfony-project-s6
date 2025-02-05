@@ -44,14 +44,14 @@ class UserFixtures extends Fixture
                 'firstName' => 'Admin',
                 'lastName' => 'User',
                 'password' => 'adminpassword',
-                'role' => [UserRoles::Admin],
+                'role' => [UserRoles::User, UserRoles::Admin],
             ],
             [
                 'email' => 'manager@example.com',
                 'firstName' => 'Manager',
                 'lastName' => 'User',
                 'password' => 'managerpassword',
-                'role' => [UserRoles::Manager],
+                'role' => [UserRoles::User, UserRoles::Manager],
             ]
         ];
 
