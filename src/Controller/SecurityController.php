@@ -66,4 +66,10 @@ class SecurityController extends AbstractController
             'registrationForm' => $form,
         ]);
     }
+    
+    #[Route('/access-denied', name: 'access_denied')]
+    public function accessDenied()
+    {
+        return $this->render('security/access_denied.html.twig');
+    }
 }

@@ -15,12 +15,7 @@ class UserController extends AbstractController
     #[Route('/user', name: 'app_user')]
     public function index(UserRepository $userRepository): Response
     {
-
-        // dd($this->getUser());
-        if (!$this->isGranted(UserVoter::VIEW)) {
-            $this->addFlash('error', 'Vous n\'avez pas les droits nécessaires pour lister les utilisateurs.');
-            return $this->redirectToRoute('home');
-        }
+        
         $users = $userRepository->findAll();
         return $this->render('user/index.html.twig', [
             'users' => $users
@@ -31,7 +26,7 @@ class UserController extends AbstractController
     public function view(UserRepository $userRepository, Request $request): Response
     {
         $user = $userRepository->find($request->get('id'));
-        if (!$this->isGranted(UserVoter::VIEW, $user)) {
+        if (!$this->isGranted(UserVoter::VIEW, $user) || !$this) {
             $this->addFlash('error', 'Vous n\'avez pas les droits nécessaires pour voir cet utilisateurs.');
             return $this->redirectToRoute('app_user');
         }

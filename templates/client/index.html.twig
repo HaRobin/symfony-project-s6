@@ -1,20 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Clients{% endblock %}
+{% block title %}Clients -
+	{{ parent() }}
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/Robin/Documents/Github/__IUT/symfony-project-s6/src/Controller/ClientController.php</code></li>
-        <li>Your template at <code>C:/Users/Robin/Documents/Github/__IUT/symfony-project-s6/templates/client/index.html.twig</code></li>
-    </ul>
-</div>
+	<div class="container mx-auto p-4">
+		<h1 class="text-2xl font-bold mb-4">Liste des Clients</h1>
+		<div class="bg-white p-6 rounded-lg shadow-md">
+			<table class="w-full border-collapse border border-gray-300">
+				<thead>
+					<tr class="bg-gray-100">
+						<th class="border border-gray-300 px-4 py-2">Prénom</th>
+						<th class="border border-gray-300 px-4 py-2">Nom</th>
+						<th class="border border-gray-300 px-4 py-2">Email</th>
+						<th class="border border-gray-300 px-4 py-2">Téléphone</th>
+						<th class="border border-gray-300 px-4 py-2">Adresse</th>
+						<th class="border border-gray-300 px-4 py-2">Créé le</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for client in clients %}
+						<tr class="text-center">
+							<td class="border border-gray-300 px-4 py-2">{{ client.firstname }}</td>
+							<td class="border border-gray-300 px-4 py-2">{{ client.lastname }}</td>
+							<td class="border border-gray-300 px-4 py-2">{{ client.email }}</td>
+							<td class="border border-gray-300 px-4 py-2">{{ client.phoneNumber }}</td>
+							<td class="border border-gray-300 px-4 py-2">{{ client.address }}</td>
+							<td class="border border-gray-300 px-4 py-2">{{ client.createdAt ? client.createdAt|date('d/m/Y') : 'N/A' }}</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="6" class="text-center p-4">Aucun client disponible.</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
 {% endblock %}

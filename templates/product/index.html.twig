@@ -1,7 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Produits{% endblock %}
+{% block title %}Produits -
+	{{ parent() }}
+{% endblock %}
 
 {% block body %}
-
+	<div class="container mx-auto p-4">
+		<h1 class="text-2xl font-bold mb-4">Liste des Produits</h1>
+		<div class="bg-white p-6 rounded-lg shadow-md">
+			<table class="w-full border-collapse border border-gray-300">
+				<thead>
+					<tr class="bg-gray-100">
+						<th class="border border-gray-300 px-4 py-2">Nom</th>
+						<th class="border border-gray-300 px-4 py-2">Description</th>
+						<th class="border border-gray-300 px-4 py-2">Prix</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for product in products %}
+						<tr class="text-center">
+							<td class="border border-gray-300 px-4 py-2">{{ product.name }}</td>
+							<td class="border border-gray-300 px-4 py-2">{{ product.description ?: 'N/A' }}</td>
+							<td class="border border-gray-300 px-4 py-2">{{ product.price }}
+								€</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="3" class="text-center p-4">Aucun produit disponible.</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
 {% endblock %}
