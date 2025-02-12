@@ -22,6 +22,11 @@ class Product
     #[ORM\Column]
     private ?float $price = null;
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
     public function getName(): ?string
     {
         return $this->name;

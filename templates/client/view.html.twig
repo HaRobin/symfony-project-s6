@@ -1,0 +1,45 @@
+{# view.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ client }}
+	-
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<div class="container mx-auto p-4">
+		<h1 class="text-2xl font-bold mb-4">Détails du Client</h1>
+		<div class="bg-white p-6 rounded-lg shadow-md w-full max-w-md mx-auto">
+			<p class="text-gray-700">
+				<strong>Prénom:</strong>
+				{{ client.firstname ?: 'N/A' }}</p>
+			<p class="text-gray-700">
+				<strong>Nom:</strong>
+				{{ client.lastname ?: 'N/A' }}</p>
+			<p class="text-gray-700">
+				<strong>Email:</strong>
+				{{ client.email }}</p>
+			<p class="text-gray-700">
+				<strong>Téléphone:</strong>
+				{{ client.phoneNumber ?: 'N/A' }}</p>
+			<p class="text-gray-700">
+				<strong>Adresse:</strong>
+				{{ client.address ?: 'N/A' }}</p>
+			<p class="text-gray-700">
+				<strong>Créé le:</strong>
+				{{ client.createdAt ? client.createdAt|date('d/m/Y') : 'N/A' }}</p>
+		</div>
+		<div class="flex justify-between mt-4">
+			<a href="{{ path('app_client') }}" class="bg-gray-500 text-white px-4 py-2 rounded">Retour</a>
+			{% if is_granted('EDIT', client) %}
+				<a href="{{ path('app_client_edit', {'id': client.id}) }}" class="bg-yellow-500 text-white px-4 py-2 rounded">Modifier</a>
+			{% endif %}
+			{% if is_granted('DELETE', client) %}
+				<form action="{{ path('app_client_delete', {'id': client.id}) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce client ?');">
+					<button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Supprimer</button>
+				</form>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}
