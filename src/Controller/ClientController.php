@@ -31,10 +31,17 @@ class ClientController extends AbstractController
         $form = $this->createForm(ClientType::class, $client);
 
         $form->handleRequest($request);
+
+        // dump($form);
+        // dd($form->isSubmitted());
         if ($form->isSubmitted() && $form->isValid()) {
 
             $entityManager->persist($client);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Client créé avec succès.');
+            // return $this->redirectToRoute('app_client_view', ['id' => $client->getId()]);
+            return $this->redirectToRoute('app_client');
         }
 
         return $this->render('client/create.html.twig', [
@@ -57,7 +64,7 @@ class ClientController extends AbstractController
     }
 
     #[Route('/client/{id}/edit', name: 'app_client_edit')]
-    public function edit(ClientRepository $clientRepository, Request $request): Response
+    public function edit(ClientRepository $clientRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         $client = $clientRepository->find($request->get('id'));
         if (!$this->isGranted(ClientVoter::EDIT, $client)) {
@@ -65,8 +72,19 @@ class ClientController extends AbstractController
             return $this->redirectToRoute('app_client');
         }
 
+        $form = $this->createForm(ClientType::class, $client);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($client);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Client modifié avec succès.');
+            return $this->redirectToRoute('app_client');
+        }
+
         return $this->render('client/edit.html.twig', [
-            'client' => $client
+            'client' => $client,
+            'form' => $form->createView()
         ]);
     }
 

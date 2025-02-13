@@ -7,6 +7,7 @@ use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Security\Voter\ProductVoter;
 use App\Security\Voter\UserVoter;
+use App\Service\ProductService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,11 +19,37 @@ class ProductController extends AbstractController
     #[Route('/product', name: 'app_product')]
     public function index(ProductRepository $productRepository): Response
     {
-        $products = $productRepository->findAll();
+        $products = $productRepository->findByPriceDesc();
         return $this->render('product/index.html.twig', [
             'products' => $products
         ]);
     }
+
+    #[Route('/products/export', name: 'app_product_export_csv')]
+    public function exportCsv(ProductRepository $productRepository, ProductService $csvExporterService): Response
+    {
+        $products = $productRepository->findAll();
+        return $csvExporterService->exportProductsToCsv($products);
+    }
+
+    #[Route('/products/import', name: 'app_product_import')]
+    public function importCsv(Request $request, ProductService $productService): Response
+    {
+        $file = $request->files->get('csv_file');
+
+        if ($file) {
+            $filePath = $file->getPathname();
+            try {
+                $productService->importProducts($filePath, ';');
+                $this->addFlash('success', 'Import successful!');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Error: ' . $e->getMessage());
+            }
+        }
+
+        return $this->redirectToRoute('app_product');
+    }
+
 
     #[Route('/product/create', name: 'app_product_create')]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
