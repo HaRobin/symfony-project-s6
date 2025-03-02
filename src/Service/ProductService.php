@@ -82,6 +82,8 @@ class ProductService
         $csv->setDelimiter($separator);
         $csv->setHeaderOffset(0); // Set the first row as the header
 
+        $hasNewProduct = false; // Track if we added any new products
+
         foreach ($csv as $record) {
             // Validate columns
             if (!isset($record['name'], $record['description'], $record['price'])) {
@@ -110,9 +112,12 @@ class ProductService
             $product->setPrice($price);
 
             $this->entityManager->persist($product);
+            $hasNewProduct = true; // We added a new product
         }
 
         // Save to database
-        $this->entityManager->flush();
+        if ($hasNewProduct) {
+            $this->entityManager->flush(); // Only flush if new products were added
+        }
     }
 }
