@@ -59,9 +59,11 @@ class ProductController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
             $entityManager->persist($product);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Produit créé avec succès.');
+            return $this->redirectToRoute('app_product');
         }
 
         return $this->render('product/create.html.twig', [
@@ -83,16 +85,34 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/product/{id}/edit', name: 'app_product_edit')]
-    public function edit(ProductRepository $productRepository, Request $request): Response
+    #[Route('/product/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
+    public function edit(ProductRepository $productRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         $product = $productRepository->find($request->get('id'));
+
+        if (!$product) {
+            $this->addFlash('error', 'Produit non trouvé.');
+            return $this->redirectToRoute('app_product');
+        }
+
         if (!$this->isGranted(ProductVoter::EDIT, $product)) {
             $this->addFlash('error', 'Vous n\'avez pas les droits nécessaires pour modifier ce produit.');
             return $this->redirectToRoute('app_product');
         }
 
+        $form = $this->createForm(ProductType::class, $product);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($product);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Produit mis à jour avec succès.');
+            return $this->redirectToRoute('app_product');
+        }
+
         return $this->render('product/edit.html.twig', [
+            'form' => $form->createView(),
             'product' => $product
         ]);
     }

@@ -2,8 +2,58 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	Créer - 
+	Créer -
 	{{ parent() }}
 {% endblock %}
 
-{% block body %}{% endblock %}
+{% block body %}
+	<div class="container mx-auto p-4">
+		<h1 class="text-2xl font-bold mb-4">Créer un utilisateur</h1>
+		<div class="bg-white p-6 rounded-lg shadow-md w-full max-w-md mx-auto">
+			{{ form_start(form, {'attr': {'class': 'space-y-4'}}) }}
+
+			<div>
+				{{ form_label(form.email, 'Email', {'label_attr': {'class': 'block text-gray-700 font-bold'}}) }}
+				{{ form_widget(form.email, {'attr': {'class': 'w-full p-2 border rounded'}}) }}
+				{{ form_errors(form.email) }}
+			</div>
+
+			<div>
+				{{ form_label(form.firstName, 'Prénom', {'label_attr': {'class': 'block text-gray-700 font-bold'}}) }}
+				{{ form_widget(form.firstName, {'attr': {'class': 'w-full p-2 border rounded'}}) }}
+				{{ form_errors(form.firstName) }}
+			</div>
+
+			<div>
+				{{ form_label(form.lastName, 'Nom', {'label_attr': {'class': 'block text-gray-700 font-bold'}}) }}
+				{{ form_widget(form.lastName, {'attr': {'class': 'w-full p-2 border rounded'}}) }}
+				{{ form_errors(form.lastName) }}
+			</div>
+
+			<div>
+				{{ form_label(form.roles, 'Rôles', {'label_attr': {'class': 'block text-gray-700 font-bold'}}) }}
+				{{ form_widget(form.roles, {'attr': {'class': 'w-full p-2 border rounded'}}) }}
+				{{ form_errors(form.roles) }}
+			</div>
+
+			<div>
+				{{ form_label(form.plainPassword.first, 'Mot de passe', {'label_attr': {'class': 'block text-gray-700 font-bold'}}) }}
+				{{ form_widget(form.plainPassword.first, {'attr': {'class': 'w-full p-2 border rounded'}}) }}
+				{{ form_errors(form.plainPassword.first) }}
+			</div>
+
+			<div>
+				{{ form_label(form.plainPassword.second, 'Confirmer le mot de passe', {'label_attr': {'class': 'block text-gray-700 font-bold'}}) }}
+				{{ form_widget(form.plainPassword.second, {'attr': {'class': 'w-full p-2 border rounded'}}) }}
+				{{ form_errors(form.plainPassword.second) }}
+			</div>
+
+			<button type="submit" class="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Créer</button>
+
+			{{ form_end(form) }}
+		</div>
+		<div class="mt-4">
+			<a href="{{ path('app_user') }}" class="bg-gray-500 text-white px-4 py-2 rounded">Retour</a>
+		</div>
+	</div>
+{% endblock %}

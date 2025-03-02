@@ -18,53 +18,30 @@ class ClientType extends AbstractType
         $builder
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom',
-                // 'constraints' => [
-                //     new Assert\NotBlank(['message' => 'Le prénom est obligatoire.']),
-                //     new Assert\Regex([
-                //         'pattern' => "/^[a-zA-ZÀ-ÿ -]+$/",
-                //         'message' => 'Le prénom ne peut contenir que des lettres et des espaces.'
-                //     ])
-                // ]
+                'attr' => ['class' => 'w-full p-2 border rounded'],
             ])
             ->add('lastname', TextType::class, [
                 'label' => 'Nom',
-                // 'constraints' => [
-                //     new Assert\NotBlank(['message' => 'Le nom est obligatoire.']),
-                //     new Assert\Regex([
-                //         'pattern' => "/^[a-zA-ZÀ-ÿ -]+$/",
-                //         'message' => 'Le nom ne peut contenir que des lettres et des espaces.'
-                //     ])
-                // ]
+                'attr' => ['class' => 'w-full p-2 border rounded'],
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
-                // 'constraints' => [
-                //     new Assert\NotBlank(['message' => "L'email est obligatoire."]),
-                //     new Assert\Email(['message' => "L'email {{ value }} n'est pas valide."])
-                // ]
+                'attr' => ['class' => 'w-full p-2 border rounded'],
             ])
             ->add('phoneNumber', TelType::class, [
                 'label' => 'Téléphone',
-                // 'constraints' => [
-                //     new Assert\NotBlank(['message' => 'Le numéro de téléphone est obligatoire.']),
-                //     new Assert\Regex([
-                //         'pattern' => "/^[0-9]{10}$/",
-                //         'message' => 'Le numéro de téléphone doit contenir exactement 10 chiffres.'
-                //     ])
-                // ]
+                'attr' => ['class' => 'w-full p-2 border rounded'],
             ])
             ->add('address', TextType::class, [
                 'label' => 'Adresse',
-                // 'constraints' => [
-                //     new Assert\NotBlank(['message' => "L'adresse est obligatoire."])
-                // ]
+                'attr' => ['class' => 'w-full p-2 border rounded'],
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Client::class,
+            'data_class' => Client::class, // Ensures data binding
         ]);
     }
 }

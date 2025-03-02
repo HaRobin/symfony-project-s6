@@ -16,19 +16,19 @@
 
 			<div>
 				{{ form_label(form.email, 'Email', {'label_attr': {'class': 'block text-gray-700 font-bold'}}) }}
-				{{ form_widget(form.email, {'attr': {'class': 'w-full p-2 border rounded'}}) }}
+				{{ form_widget(form.email, {'attr': {'class': 'w-full p-2 border rounded', 'value': form.vars.value.email}}) }}
 				{{ form_errors(form.email) }}
 			</div>
 
 			<div>
 				{{ form_label(form.firstName, 'Prénom', {'label_attr': {'class': 'block text-gray-700 font-bold'}}) }}
-				{{ form_widget(form.firstName, {'attr': {'class': 'w-full p-2 border rounded'}}) }}
+				{{ form_widget(form.firstName, {'attr': {'class': 'w-full p-2 border rounded', 'value': form.vars.value.firstName}}) }}
 				{{ form_errors(form.firstName) }}
 			</div>
 
 			<div>
 				{{ form_label(form.lastName, 'Nom', {'label_attr': {'class': 'block text-gray-700 font-bold'}}) }}
-				{{ form_widget(form.lastName, {'attr': {'class': 'w-full p-2 border rounded'}}) }}
+				{{ form_widget(form.lastName, {'attr': {'class': 'w-full p-2 border rounded', 'value': form.vars.value.lastName}}) }}
 				{{ form_errors(form.lastName) }}
 			</div>
 
@@ -36,6 +36,18 @@
 				{{ form_label(form.roles, 'Rôles', {'label_attr': {'class': 'block text-gray-700 font-bold'}}) }}
 				{{ form_widget(form.roles, {'attr': {'class': 'w-full p-2 border rounded'}}) }}
 				{{ form_errors(form.roles) }}
+			</div>
+
+			<div>
+				{{ form_label(form.plainPassword.first, 'Nouveau mot de passe', {'label_attr': {'class': 'block text-gray-700 font-bold'}}) }}
+				{{ form_widget(form.plainPassword.first, {'attr': {'class': 'w-full p-2 border rounded'}}) }}
+				{{ form_errors(form.plainPassword.first) }}
+			</div>
+
+			<div>
+				{{ form_label(form.plainPassword.second, 'Confirmer le mot de passe', {'label_attr': {'class': 'block text-gray-700 font-bold'}}) }}
+				{{ form_widget(form.plainPassword.second, {'attr': {'class': 'w-full p-2 border rounded'}}) }}
+				{{ form_errors(form.plainPassword.second) }}
 			</div>
 
 			<button type="submit" class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Mettre à Jour</button>
