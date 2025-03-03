@@ -31,32 +31,23 @@ final class ProductVoter extends Voter
             return false;
         }
 
-        // Temporary code to grant all permissions to all loged in users
-        if (in_array(UserRoles::User->value, $user->getRoles(), true)) {
+        // Grant all permissions to admins
+        if (in_array(UserRoles::Admin->value, $user->getRoles(), true)) {
             return true;
         }
 
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
-            case self::EDIT:
-                // logic to determine if the user can EDIT
-                // return true or false
-                break;
-
-            case self::VIEW:
-                // logic to determine if the user can VIEW
-                // return true or false
-                break;
-
             case self::DELETE:
-                // logic to determine if the user can DELETE
-                // return true or false
-                break;
+                if (in_array(UserRoles::Admin->value, $user->getRoles(), true)) {
+                    return true;
+                }
+                return false;
 
-            case self::ADD:
-                // logic to determine if the user can ADD
-                // return true or false
-                break;
+            default:
+                if (in_array(UserRoles::User->value, $user->getRoles(), true)) {
+                    return true;
+                }
         }
         return false;
     }

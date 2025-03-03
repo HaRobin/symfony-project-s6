@@ -27,7 +27,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/user/create', name: 'app_user_create')]
+    #[Route('/user/create', name: 'app_user_create', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $newUser = new User();
@@ -35,17 +35,19 @@ class UserController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
             // Encode password
             $plainPassword = $form->get('plainPassword')->getData();
             $newUser->setPassword($userPasswordHasher->hashPassword($newUser, $plainPassword));
 
             $entityManager->persist($newUser);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Utilisateur créé avec succès.');
+            return $this->redirectToRoute('app_user');
         }
 
         return $this->render('user/create.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 

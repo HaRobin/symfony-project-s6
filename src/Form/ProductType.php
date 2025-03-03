@@ -18,7 +18,6 @@ class ProductType extends AbstractType
             ->add('description', TextType::class)
             ->add('price', MoneyType::class, [
                 'currency' => 'EUR',
-                'divisor' => 100,
             ])
         ;
     }
