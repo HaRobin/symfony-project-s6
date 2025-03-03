@@ -1,6 +1,49 @@
-# Symfony 7.1 Boilerplate 
+# Projet d'étude Symfony avancé - BackOffice d'entreprise 
 
-Attention : Il vous faut PHP 8.2 pour faire fonctionner ce projet si vous avez PHP 8.1 utiliser la branche symfony64 du repository.
+Dans le cadre de l'UE `R6.A.05 - Dev Avancée`, dirigée par [Laurine Poinsignon](https://github.com/Laurine27), j'ai développé cette application de BackOffice pour une entreprise fictive de gestion de clients et de produits.
+
+Les fonctionnalités explorées sont les suivantes :
+- **Voters** : Utilisation des voters pour restreindre l'accès aux différentes fonctionnalités de l'application selon les rôles **USER**, **MANAGER** et **ADMIN**.
+- **Traits** : Utilisation des traits pour factoriser l'implémentation de certaines `column` des entités Doctrine (Ex : `CreatedAt` et `UpdatedAt`).
+- **FileSystem** : Utilisation du `FileSystem` pour manipuler les fichiers et implémenter des fonctionnalités d'import et d'export de la liste des produits.
+- **Commands** : Implémentation d'une commande permettant de créer un client par indice de commande (Ex : `php bin/console app:client:create`).
+- **Services** : Utilisation des services pour factoriser la logique utilisée dans les commandes.
+- **Unit tests** : Mise en place de tests unitaires pour le service lié à l'entité Utilisateur (`UserServiceTest`).
+
+L'intégralité des produits et de leurs informations présents dans les fixtures a été récupérée sur le site [maxesport.gg](https://maxesport.gg).
+
+## Difficultés rencontrées
+
+Pour une raison inconnue, après avoir testé plusieurs variantes d'implémentation, consulté la documentation et des forums (Stack Overflow) et m'être aidé d'IA… Je n'ai pas réussi à afficher les erreurs des formulaires. Par exemple, lors d'une mauvaise saisie du prix pour la création/modification d'articles, la requête n'est pas validée, l'erreur peut être `dump` dans le form, mais l'interface graphique ne les affiche pas.
+
+## Utilisation
+
+Une fois les fixtures chargées, vous pourrez vous connecter avec les utilisateurs renseignés dans le fichier [UserFixtures.php](./src/DataFixtures/UserFixtures.php), dont les utilisateurs principaux peuvent s'identifier avec :
+
+- **Utilisateur lambda** :
+  ```text
+  john.doe@example.com
+  password123
+  ```
+
+- **Utilisateur MANAGER** :
+  ```text
+  manager@example.com
+  managerpassword
+  ```
+
+- **Utilisateur ADMIN** :
+  ```text
+  admin@example.com
+  adminpassword
+  ```
+
+## Stack technique
+
+- PHP 8.2
+- Symfony 7.1
+- MySQL
+- Tailwind
 
 ## Initialisation de votre IDE
 
@@ -19,22 +62,13 @@ Attention : Il vous faut PHP 8.2 pour faire fonctionner ce projet si vous avez P
     - Installer les extensions (whatwedo.twig, TheNouillet.symfony-vscode, DEVSENSE.phptools-vscode, 
     bmewburn.vscode-intelephense-client, zobo.php-intellisense)
 
-## Installation avec IDX
-
-1. Fork le projet sur votre compte GitHub
-2. Importer le projet depuis votre GitHub sur IDX
-3. Le projet est déjà lancé il suffit d'aller dans l'onglet du terminal avec `start` puis cliquer sur le lien `localhost`
-4. Lancer la commande `composer i` pour installer les dépendances du projet.
-5. Pour accéder à la base de données `mysql -u root`
-6. Dans un fichier à la racine `.env.local` mettre cette variable d'environnement 
-`DATABASE_URL="mysql://root:@127.0.0.1:3306/app?serverVersion=10.11.2-MariaDB&charset=utf8mb4"`
-
 ## Installation en local
 
 1. Cloner le projet
 2. Installer PHP >= 8.2 et Composer (Sur votre machine utiliser XAMPP pour windows, MAMP pour mac ou LAMP pour linux bien prendre la version PHP 8.2)
 3. Installer les dépendances du projet avec la commande `composer install`
-4. Faire un virtual host sur votre serveur local (XAMPP par exemple pour Windows) 
+4. Utiliser de CLI `symfony` pour démarer le projet avec la commande `symfony server:start`. 
+   Ou faire un virtual host sur votre serveur local (XAMPP par exemple pour Windows) 
  - Ouvrir le fichier `httpd-vhosts.conf` dans le répertoire `C:\xampp\apache\conf\extra`
     - Ajouter le code suivant à la fin du fichier
     ```
@@ -55,8 +89,10 @@ Attention : Il vous faut PHP 8.2 pour faire fonctionner ce projet si vous avez P
     - Redémarrer Apache
     - Accéder à l'adresse `symfony_base.local` dans votre navigateur
 
-4. Créer un fichier `.env.local` à la racine du projet et ajouter la configuration de la base de données
-5. Créer la base de données avec la commande `php bin/console doctrine:database:create`
+5. Créer un fichier `.env.local` à la racine du projet et ajouter la configuration de la base de données
+6. Créer la base de données avec la commande `php bin/console doctrine:database:create`
+7. Exécuter les migrations avec la commande `php bin/console doctrine:migrations:migrate`
+8. Charger les données de test avec la commande `php bin/console doctrine:fixtures:load`
 
 ## Utilisation
 
