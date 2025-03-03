@@ -123,4 +123,26 @@ class ProductServiceTest extends TestCase
 
         unlink($csvFilePath);
     }
+
+    public function testCreateProduct()
+    {
+        $product = new Product();
+        $product->setName("Test Product");
+        $product->setDescription("A test description");
+        $product->setPrice(99.99);
+
+        // Verify that persist() is called exactly once
+        $this->entityManager
+            ->expects($this->once())
+            ->method('persist')
+            ->with($this->isInstanceOf(Product::class));
+
+        // Verify that flush() is called exactly once
+        $this->entityManager
+            ->expects($this->once())
+            ->method('flush');
+
+        // Execute the function
+        $this->productService->createProduct($product);
+    }
 }

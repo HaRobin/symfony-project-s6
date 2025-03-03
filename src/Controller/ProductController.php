@@ -52,21 +52,19 @@ class ProductController extends AbstractController
 
 
     #[Route('/product/create', name: 'app_product_create')]
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    public function create(Request $request, ProductService $productService): Response
     {
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($product);
-            $entityManager->flush();
+            $productService->createProduct($product); // ✅ Call the service
 
             $this->addFlash('success', 'Produit créé avec succès.');
             return $this->redirectToRoute('app_product');
         }
 
-        // dd($form->getErrors(true, false));
         return $this->render('product/create.html.twig', [
             'form' => $form->createView()
         ]);

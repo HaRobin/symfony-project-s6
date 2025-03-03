@@ -20,6 +20,12 @@ class ProductService
         $this->productRepository = $productRepository;
     }
 
+    public function createProduct(Product $product): void
+    {
+        $this->entityManager->persist($product);
+        $this->entityManager->flush();
+    }
+
     /**
      * Génère un fichier CSV encodé en UTF-8 avec BOM
      *
